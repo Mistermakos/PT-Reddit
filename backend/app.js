@@ -1,13 +1,19 @@
 import express from "express"
-import IndexRouter from "./Routes/indexrouter.js";
+import router from "./Routes/routes.js";
 
 const app = express();
+
+
+//Middleware 
+app.use((req,res,next) => 
+{
+    req.db = db;
+    next()
+})
+
 app.use(express.json());
 
-// app.use("/login", LoginRouter)
-// app.use("/index", IndexRouter)
-// app.use("/site_details",SiteDetalsRouter)
-// app.use("/about", AboutRouter)
-// app.use("/contact", ContactRouter)
+app.use("/", express.static("frontend"))
+app.use("/api/v1", router)
 
 export default app;

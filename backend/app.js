@@ -4,6 +4,7 @@ import router from "./Routes/routes.js";
 const app = express();
 
 
+app.use(express.json());
 //Middleware 
 app.use((req,res,next) => 
 {
@@ -11,7 +12,6 @@ app.use((req,res,next) =>
     next()
 })
 
-app.use(express.json());
 
 app.use("/", express.static("frontend"))
 app.use("/api/v1", router)

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config({path:"./config.env"})
-import mysql from 'mysql'
+import mysql from 'mysql2'
 import app from "./backend/app.js"
 
 var conn = mysql.createConnection({

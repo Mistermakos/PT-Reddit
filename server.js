@@ -4,9 +4,9 @@ import mysql from 'mysql2'
 import app from "./backend/app.js"
 
 var conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
+    host: "%",
+    user: "ptreddit_user",
+    password: "y]Smc(6Ratp&3@DK",
     database: "ptreddit"
 });
 

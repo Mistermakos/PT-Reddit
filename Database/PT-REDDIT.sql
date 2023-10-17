@@ -35,3 +35,7 @@ CREATE TABLE super_users
     user_id BIGINT UNSIGNED,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE USER 'ptreddit_user'@'%' IDENTIFIED BY "y]Smc(6Ratp&3@DK";
+
+GRANT USAGE ON ptreddit.* TO 'ptreddit_user'@'%'

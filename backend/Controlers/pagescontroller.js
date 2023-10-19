@@ -6,7 +6,7 @@ export const getAllPages = async (req,res) =>
     try
     {
         let result = [];
-        await (req.db).query("SELECT icon,link,title,description,author_id FROM sites", function(error, results)
+        await global.query("SELECT icon,link,title,description,author_id FROM sites", function(error, results)
         {
             result.push(results)
         }) 

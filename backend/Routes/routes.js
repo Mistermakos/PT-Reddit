@@ -6,8 +6,6 @@ const router = express.Router()
 router.route("/Pages")
   .get(pages.getAllPages)
   .post(pages.addPage)
-router.route("/Users:id")
-  .get(users.getUser)
-  .post(users.addUser)
+  
 
 export default router

@@ -1,5 +1,6 @@
 import express from "express"
 import path from "path"
+import * as user from "../Controlers/usercontroller.js"
 const SubpagesRouter = express.Router()
 
 const dirname = path.resolve();

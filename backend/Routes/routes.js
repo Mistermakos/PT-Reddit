@@ -6,6 +6,5 @@ const router = express.Router()
 router.route("/Pages")
   .get(pages.getAllPages)
   .post(pages.addPage)
-  
 
 export default router

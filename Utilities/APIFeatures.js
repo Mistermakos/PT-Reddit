@@ -5,9 +5,9 @@ export const Includes = async (obj, values) =>
     {
         let res_obj = [];
         values.forEach(ele => {
-            if(obj[ele] === undefined){res_obj = [];}
+            if(obj[ele] === undefined){res_obj = []; return res_obj;}
             else{res_obj.push(obj[ele])}
-        });           
+        });       
         return res_obj;
     }
     catch(err)

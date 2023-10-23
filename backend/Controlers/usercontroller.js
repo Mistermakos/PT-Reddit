@@ -1,18 +1,26 @@
-export const getUser = (user) => 
+import sha  from "sha512";
+
+export const getUser = async (query, user) => 
 {
-    if(user == {})
+    try
+    { // query <- "id" || "name" user (obj) must consist of thing we want to check (so user.id or user.name)
+        const [rows,fields] = await (global.db).query(`select 0=0 from users where ${query} = ?`, user);
+        return rows;
+    }
+    catch(err)
     {
-        const id = parseInt((req.params.id).replace(":","")) 
-        console.log(id)
-        const result = global.db.query('SELECT * FROM users WHERE id = ' + global.db.escape(id), function(err, results) {
-            result.push(results)
-            //SELECT * FROM users WHERE id = 'id'
-        })
-        console.log(query)
+        throw err; 
     }
 }
 
-export const addUser = (req,res) => 
+export const addUser = async (user) => 
 {
-    
+    try
+    {
+        await (global.db).query("INSERT INTO `users`(login, password) VALUES (?,?)", [user.login, sha512(user.password)])
+    }
+    catch(err)
+    {
+        throw err;
+    }
 } 

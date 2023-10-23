@@ -1,20 +1,17 @@
 import express from "express";
 import * as API from "../../Utilities/APIFeatures.js"
+import { getUser } from "./usercontroller.js";
 
 export const getAllPages = async (req,res) => 
 {
     try
     {
-        let result = [];
-        await global.query("SELECT icon,link,title,description,author_id FROM sites", function(error, results)
-        {
-            result.push(results)
-        }) 
-        res.status(201).json({
+       const [rows,fields] = await (global.db).execute("select * from sites");
+       console.log(rows);
+       res.status(201).json({
             status:"success",
-            data: result
-        });
-        
+            data: rows
+       })
     }
     catch(err)
     {
@@ -26,20 +23,18 @@ export const getAllPages = async (req,res) =>
 }
 
 export const addPage = async (req,res) => {
-    console.log(req.body)
-    const values = await API.Includes(req.body, ["icon", "link", "title", "description", "author_id"])
     
-    if(values = []){
-        res.staus(405).json({
+    const values = await API.Includes(req.body, ["icon", "link", "title", "description", "author_id"])
+    if(values.length == 0){
+        res.status(405).json({
             status:"FAIL",
             message:"Add valid data"
     })}
     else // !!! THIS HAS TO BE CHECKED AFTER CREATING USERS GET && POST REQUEST
     {
-        let query = 'SELECT id FROM users WHERE id = ?'
-        const [rows] = await connection.query(query, [values[(values.length) - 1]])
+        const rows = await getUser('id',req.body.id);
         console.log(rows)
-        if(rows == {})
+        if(rows.length == 0)
         {
             res.status(405).json({
                 status:"FAIL",
@@ -47,8 +42,8 @@ export const addPage = async (req,res) => {
             })
         }
         else{
-            query = `Insert into sites (icon, link, title, description, author_id) VALUES( ? , ? , ? , ?, ?)`;
-            const [rows] = await connection.query(query, [values[0],values[1],values[2],values[3],values[4]]);
+            const query = `Insert into sites (icon, link, title, description, author_id) VALUES( ? , ? , ? , ?, ?)`;
+            const [rows] = await (global.db).query(query, [values[0],values[1],values[2],values[3],values[4]]);
         }
     }
     //console.log(values)

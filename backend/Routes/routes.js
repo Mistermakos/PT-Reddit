@@ -6,5 +6,11 @@ const router = express.Router()
 router.route("/Pages")
   .get(pages.getAllPages)
   .post(pages.addPage)
-
+router.route("/SearchByAuthor")
+  .get(pages.getByAuthor)
+router.route("/SearchByTitle")
+  .get(pages.getByTitle)
+router.route("/SearchByLink")
+  .get(pages.getByLink)
+  
 export default router

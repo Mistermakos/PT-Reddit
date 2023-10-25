@@ -6,7 +6,7 @@ export const getAllPages = async (req,res) =>
 {
     try
     {
-       const [rows,fields] = await (global.db).execute("select * from sites");
+       const [rows,fields] = await (global.db).execute("select * from websites order by creation_date");
        //console.log(rows);
        res.status(201).json({
             status:"success",
@@ -30,7 +30,7 @@ export const getByAuthor = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` = (select id from users where login = ?)", [req.query.author]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE `author_id` = (select id from users where login = ?) order by creation_date", [req.query.author]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -51,7 +51,7 @@ export const getByTitle = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE title = ?", [req.query.title]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE title = ? order by creation_date", [req.query.title]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -72,7 +72,7 @@ export const getByLink = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link = ? ", [req.query.link]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE link = ? order by creation_date", [req.query.link]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -89,7 +89,6 @@ export const getByLink = async (req,res) =>
 }
 
 export const addPage = async (req,res) => {
-    
     const values = await API.Includes(req.body, ["icon", "link", "title", "description", "author_id"])
     if(values.length == 0){
         res.status(405).json({
@@ -108,7 +107,7 @@ export const addPage = async (req,res) => {
             })
         }
         else{
-            const query = `Insert into sites (icon, link, title, description, author_id) VALUES( ? , ? , ? , ?, ?)`;
+            const query = `Insert into websites (icon, link, title, description, author_id, creation_date) VALUES( ? , ? , ? , ?, ?, CURRENT_DATE())`;
             const [rows] = await (global.db).query(query, [values[0],values[1],values[2],values[3],values[4]]);
             res.status(201).json({
                 status:"Success",

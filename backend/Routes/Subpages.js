@@ -11,6 +11,8 @@ SubpagesRouter.route("/login")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/login.html')));
 SubpagesRouter.route("/site_details")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')));
+SubpagesRouter.route("/site_details/:id")
+  .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')))
   
 
 export default SubpagesRouter

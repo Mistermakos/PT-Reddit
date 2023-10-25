@@ -23,6 +23,28 @@ export const getAllPages = async (req,res) =>
     }
 }
 
+export const getOnePage = async (req,res) => 
+{
+    try
+    {
+       const id = (req.params.id).replace(":","")
+       const [rows,fields] = await (global.db).query("select * from websites where id = ?", id);
+       console.log(rows);
+       res.status(201).json({
+            status:"success",
+            length: rows.length,
+            data: rows
+       })
+    }
+    catch(err)
+    {
+        res.status(401).json({
+            status:"fail",
+            message: err.message
+        })
+    }
+}
+
 //Aliases when refering to them do /searchby whatever you want and after it add ?(link|author|title)= string you want to add (space = %20, but users have -) 
 
 export const getByAuthor = async (req,res) => 

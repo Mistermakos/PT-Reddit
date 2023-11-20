@@ -1,8 +1,8 @@
 import express from "express"
 import path from "path"
 import checkLogin from "../login.js"
-import  getPanel from "../Routes/panel.js"
-import * as user from "../Controlers/usercontroller.js"
+import getPanel from "../Routes/panel.js"
+import * as User from "../Controlers/usercontroller.js"
 const SubpagesRouter = express.Router()
 
 const dirname = path.resolve();
@@ -14,8 +14,8 @@ SubpagesRouter.route("/login")
   .post(await checkLogin);
 SubpagesRouter.route("/panel")
   .get(await getPanel);
-SubpagesRouter.route("/site_details")
-  .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')));
+SubpagesRouter.route("/addUser")
+  .post(await User.addUser);
 SubpagesRouter.route("/site_details/:id")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')))
   

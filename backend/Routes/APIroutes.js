@@ -2,7 +2,6 @@ import express from "express"
 import * as pages from "../Controlers/pagescontroller.js"
 const router = express.Router()
 
-
 router.route("/Pages")
   .get(pages.getAllPages)
   .post(pages.addPage)

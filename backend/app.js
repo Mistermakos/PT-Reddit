@@ -1,7 +1,7 @@
 import express from "express"
 import session from "express-session";
 import bodyParser from "body-parser";
-import router from "./Routes/routes.js";
+import router from "./Routes/APIroutes.js";
 import SubpagesRouter from "./Routes/Subpages.js"
 
 const app = express();

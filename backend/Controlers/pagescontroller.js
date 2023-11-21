@@ -1,6 +1,7 @@
 import express from "express";
 import * as API from "../../Utilities/APIFeatures.js"
 import { getUser , addUser} from "./usercontroller.js";
+import fs from 'fs/promises'
 
 export const getAllPages = async (req,res) => 
 {
@@ -111,31 +112,37 @@ export const getByLink = async (req,res) =>
 }
 
 export const addPage = async (req,res) => {
-    const values = await API.Includes(req.body, ["icon", "link", "title", "description", "author_id"])
-    if(values.length == 0){
-        res.status(405).json({
-            status:"FAIL",
-            message:"Add valid data"
-    })}
-    else // !!! THIS HAS TO BE CHECKED AFTER CREATING USERS GET && POST REQUEST
-    {
-        const rows = await getUser('id',req.body.id);
-        console.log(rows)
-        if(rows.length == 0)
+        try
         {
-            res.status(405).json({
-                status:"FAIL",
-                message:"This user does not exist yet"                
-            })
+            if(req.session.user !== undefined)
+            {
+                //const data = await fs.readFile(``, "binary");
+                const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, LOAD_FILE(?), ?, ?, ?, ?);", [req.body.plik, req.body.link,req.body.tytul,req.body.opis,req.session.user.substr(-1)]);
+                res.redirect('/panel');
+                return 0;
+            }
+            else{res.redirect('/');}
         }
-        else{
-            const query = `Insert into websites (icon, link, title, description, author_id, creation_date) VALUES( ? , ? , ? , ?, ?, CURRENT_DATE())`;
-            const [rows] = await (global.db).query(query, [values[0],values[1],values[2],values[3],values[4]]);
-            res.status(201).json({
-                status:"Success",
-                message:"Page added successfully"                
-            })
+        catch(err)
+        {
+            res.redirect('/login');
         }
+}
+
+export const deletePage = async (req,res) => 
+{
+    try
+    {
+        if(req.session.user !== undefined)
+        {
+            const [re] = await (global.db).query("delete from sites where id = ?", [parseInt(req.body.id)]);
+            res.redirect('/panel');
+            return 0;
+        }
+        else{res.redirect('/');}
     }
-    //console.log(values)
+    catch(err)
+    {
+        res.redirect('/login');
+    }
 }

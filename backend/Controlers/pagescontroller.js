@@ -116,26 +116,56 @@ export const addPage = async (req,res) => {
         {
             if(req.session.user !== undefined)
             {
-                //const data = await fs.readFile(``, "binary");
-                const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, LOAD_FILE(?), ?, ?, ?, ?);", [req.body.plik, req.body.link,req.body.tytul,req.body.opis,req.session.user.substr(-1)]);
-                res.redirect('/panel');
+                const body = req.body;
+                const plik =  req.file.buffer.toString('utf-8');
+                const link = body.link;
+                const tytul = body.tytul;
+                const opis = body.opis;
+                const user =  req.session.user.substr(-1);
+
+                const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, ?, ?, ?, ?, ?);", [plik, link, tytul, opis, user]);
+                res.redirect("/panel")
                 return 0;
             }
             else{res.redirect('/');}
         }
         catch(err)
         {
-            res.redirect('/login');
+            throw err; res.redirect('/login');
         }
 }
 
 export const deletePage = async (req,res) => 
 {
     try
-    {
+    {   
         if(req.session.user !== undefined)
         {
             const [re] = await (global.db).query("delete from sites where id = ?", [parseInt(req.body.id)]);
+            res.redirect('/panel');
+            return 0;
+        }
+        else{res.redirect('/');}
+    }
+    catch(err)
+    {
+        res.redirect('/login');
+    }
+}
+
+export const updatePage = async (req,res) => 
+{
+    try
+    {   
+        if(req.session.user !== undefined)
+        {
+            const body = req.body;
+            const icon = req.file.buffer.toString('utf-8');
+            const link = body.link;
+            const title = body.tytul;
+            const dscription = body.opis;
+
+            const [re] = await (global.db).query("update sites set icon = ?, link = ?, title = ?, description = ? where id = ?", [icon, link, title, dscription, parseInt(req.body.id)]);
             res.redirect('/panel');
             return 0;
         }

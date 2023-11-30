@@ -1,17 +1,17 @@
 import express from "express"
-import * as pages from "../Controlers/pagescontroller.js"
+import * as Pages from "../Controlers/pagescontroller.js"
 const router = express.Router()
 
 router.route("/Pages")
-  .get(pages.getAllPages)
-  .post(pages.addPage)
+  .get(await Pages.getAllPages)
+  .post(Pages.addPage)
 router.route("/Pages:id")
-  .get(pages.getOnePage)
+  .get(Pages.getOnePage)
 router.route("/SearchByAuthor")
-  .get(pages.getByAuthor)
+  .get(Pages.getByAuthor)
 router.route("/SearchByTitle")
-  .get(pages.getByTitle)
+  .get(Pages.getByTitle)
 router.route("/SearchByLink")
-  .get(pages.getByLink)
+  .get(Pages.getByLink)
   
 export default router

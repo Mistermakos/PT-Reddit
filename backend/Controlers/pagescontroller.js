@@ -7,8 +7,8 @@ export const getAllPages = async (req,res) =>
 {
     try
     {
-       const [rows,fields] = await (global.db).execute("select * from websites order by creation_date");
-       //console.log(rows);
+       const [rows,fields] = await (global.db).query("select * from sites order by creation_date");
+       console.log(rows);
        res.status(201).json({
             status:"success",
             length: rows.length,
@@ -29,7 +29,7 @@ export const getOnePage = async (req,res) =>
     try
     {
        const id = (req.params.id).replace(":","")
-       const [rows,fields] = await (global.db).query("select * from websites where id = ?", id);
+       const [rows,fields] = await (global.db).query("select * from sites where id = ?", id);
        console.log(rows);
        res.status(201).json({
             status:"success",
@@ -74,7 +74,7 @@ export const getByTitle = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE title = ? order by creation_date", [req.query.title]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE title = ? order by creation_date", [req.query.title]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -122,8 +122,8 @@ export const addPage = async (req,res) => {
                 const tytul = body.tytul;
                 const opis = body.opis;
                 const user =  req.session.user.substr(-1);
-
-                const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, ?, ?, ?, ?, ?);", [plik, link, tytul, opis, user]);
+                const curDate = new Date();
+                const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, ?, ?, ?, ?, ?, ?);", [plik, link, tytul, opis, user, curDate]);
                 res.redirect("/panel")
                 return 0;
             }

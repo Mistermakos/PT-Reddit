@@ -1,5 +1,5 @@
 :root {
-    --unit: 5px;
+    --unit: 5px; 
     --text-input-border-width: calc(0.2 * var(--unit));
     --button-height: calc(4 * var(--unit));
 

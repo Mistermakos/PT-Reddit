@@ -6,6 +6,8 @@
     --header-height: calc(7 * var(--unit));
     --header-gap: calc(2 * var(--unit));
 
+
+    --main-gap: calc(5 * var(--unit));
     --window-height: calc(18 * var(--unit));
     --window-width: calc(26 * var(--unit));
     --window-border-width: calc(0.2 * var(--unit));
@@ -285,8 +287,9 @@ main {
     grid-template-rows: repeat(auto-fill, var(--window-height));
     justify-content: center;
     justify-items: center;
-    gap: calc(5 * var(--unit));
-    padding: calc(5 * var(--unit));
+    
+    gap: var(--main-gap);
+    padding: var(--main-gap);
     align-content: start;
 }
 

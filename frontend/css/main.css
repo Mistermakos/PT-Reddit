@@ -12,7 +12,7 @@
 
     --footer-height: calc(3 * var(--unit));
 
-    --item-list-duration: 200ms;
+    --item-list-duration: 150ms;
     --text-input-border-duration: 300ms;
     --window-duration: 300ms;
 
@@ -281,15 +281,18 @@ header {
 main {
     background-color: var(--main-bg-color);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, var(--window-width));
+    grid-template-rows: repeat(auto-fill, var(--window-height));
+    justify-content: center;
     justify-items: center;
-    align-items: start;
+    gap: calc(5 * var(--unit));
+    padding: calc(5 * var(--unit));
+    align-content: start;
 }
 
 /******************************************************************************************/
 
 .window {
-    margin-top: calc(8 * var(--unit));
     height: var(--window-height);
     width: var(--window-width);
     display: grid;
@@ -302,6 +305,7 @@ main {
     border: var(--window-border-width) solid var(--main-theme-color);
     background-color: var(--main-theme-color);
     overflow: hidden;
+    position: relative;
 }
 
 .window-img > img {
@@ -316,22 +320,21 @@ main {
     border-top: none;
 }
 
-.window-mask {
+.window-img::after {
+    content: "";
     position: absolute;
     inset: var(--window-border-width);
     background-color: var(--window-mask-bg-color);
     pointer-events: none;
-    transform: scale(0);
-    --hexagon-bg-color: var(--window-mask-bg-color);
-    --hexagon-height: calc(var(--window-height) - (2 * var(--window-border-width)))
+    opacity: 0;
 }
 
-.window-mask {
-    transition: transform var(--window-duration);
+.window-img::after {
+    transition: opacity var(--window-duration);
 }
 
-.window:hover > .window-mask {
-    transform: scale(1);
+.window:hover > .window-img::after {
+    opacity: 1;
 }
 
 .window > .window-img > img {
@@ -394,6 +397,7 @@ footer {
         width: 90%;
         margin-inline: auto;
     }
+
     :root {
         --unit: 7px;
     }
@@ -403,6 +407,7 @@ footer {
     .root-container {
         width: 80%;
     }
+
     :root {
         --unit: 8px;
     }

@@ -7,13 +7,20 @@ export const getAllPages = async (req,res) =>
 {
     try
     {
-       const [rows,fields] = await (global.db).query("select * from sites order by creation_date");
-       console.log(rows);
+        var [rows,fields] = await (global.db).query("select * from sites order by creation_date");
+        var image_array = [];
+
+        rows.forEach(element => {
+            image_array.push(element.icon.toString('base64'))
+        });
+
+
        res.status(201).json({
             status:"success",
-            length: rows.length,
-            data: rows
-       })
+            Length: rows.length,
+            data: rows,
+            images: image_array
+        });
     }
     catch(err)
     {
@@ -28,14 +35,22 @@ export const getOnePage = async (req,res) =>
 {
     try
     {
-       const id = (req.params.id).replace(":","")
-       const [rows,fields] = await (global.db).query("select * from sites where id = ?", id);
-       console.log(rows);
-       res.status(201).json({
+        
+        const id = (req.params.id).replace(":","")
+
+        const [rows,fields] = await (global.db).query("select * from sites where id = ?", id);
+        console.log(rows);
+        var image_array = [];
+        rows.forEach(element => {
+            image_array.push(element.icon.toString('base64'))
+        });
+
+        res.status(201).json({
             status:"success",
             length: rows.length,
-            data: rows
-       })
+            data: rows,
+            images: image_array
+        })
     }
     catch(err)
     {
@@ -53,7 +68,7 @@ export const getByAuthor = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE `author_id` = (select id from users where login = ?) order by creation_date", [req.query.author]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` = (select id from users where login = ?) order by creation_date", [req.query.author]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -95,7 +110,7 @@ export const getByLink = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `websites` WHERE link = ? order by creation_date", [req.query.link]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link = ? order by creation_date", [req.query.link]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -117,7 +132,7 @@ export const addPage = async (req,res) => {
             if(req.session.user !== undefined)
             {
                 const body = req.body;
-                const plik =  req.file.buffer.toString('utf-8');
+                const plik =  req.file.buffer;
                 const link = body.link;
                 const tytul = body.tytul;
                 const opis = body.opis;

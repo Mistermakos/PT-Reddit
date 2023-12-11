@@ -27,7 +27,7 @@ SubpagesRouter.route("/deletePage")
   .post(await Page.deletePage);
 SubpagesRouter.route("/editPage")
   .post(upload.single('plik'), await Page.updatePage)
-SubpagesRouter.route("/site_details/:id")
+SubpagesRouter.route("/site_details/")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')))
   
 

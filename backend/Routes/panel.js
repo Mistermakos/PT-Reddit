@@ -75,10 +75,10 @@ const getPanel = async (req,res) =>
         }
         else // If sombody not logged in wanted to go to path /panel, he/she will be redirected
         {
-            res.redirect('/');
+            res.redirect('/login');
         }
     }
-    catch(err){res.redirect('/login');} // id any error occures
+    catch(err){res.redirect('/');} // if any error occures
 }
 
 export default getPanel;

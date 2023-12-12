@@ -134,11 +134,11 @@
 
 body {
     margin: 0;
-    background:
-        linear-gradient(var(--header-bg-color), var(--main-theme-color) var(--gradient-height), var(--main-theme-color) calc(100% - var(--gradient-height)), var(--header-bg-color));
     font-family: Arial, Helvetica, sans-serif;
     color: var(--main-font-color);
     font-weight: 600;
+    background:
+        linear-gradient(var(--header-bg-color), var(--main-theme-color) var(--gradient-height), var(--main-theme-color) calc(100% - var(--gradient-height)), var(--header-bg-color));
 }
 
 .root-container {
@@ -157,6 +157,12 @@ body {
     filter: var(--background-filter);
 }
 
+.main-bg::before {
+    z-index: 1;
+    inset: 0;
+    background-color: #d101ca;
+}
+
 /******************************************************************************************/
 
 header {
@@ -167,7 +173,7 @@ header {
     background-color: var(--header-bg-color);
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .logo-box {

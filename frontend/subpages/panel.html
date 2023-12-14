@@ -4,31 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        form{float:left; padding:10px; box-sizing: border-box;}
-    </style>
-    <script>
-        var uploadField = document.getElementById("file1");
-        var uploadField2 = document.getElementById("file2");
-        
-        uploadField.onchange = function() {
-            if(this.files[0].size > 16777215){
-                uploadField.value = undefined;
-                this.value = "";
-            };
-        };
-        uploadField2.onchange = function() {
-            if(this.files[0].size > 16777215){
-                uploadField.value = undefined;
-                this.value = "";
-            };
-        };
-
-    </script>
+    <link rel="stylesheet" href="../css/panel.css"/>
 </head>
 <body>
-    [%0%]
-    <br>
-    [%body%]
+    <div id="everything">
+        <header>
+            <h1></h1>
+        </header>
+        <main>
+            [%body%]
+        </main>
+    </div>
 </body>
 </html>

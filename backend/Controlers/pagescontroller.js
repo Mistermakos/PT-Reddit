@@ -175,7 +175,7 @@ export const updatePage = async (req,res) =>
         if(req.session.user !== undefined)
         {
             const body = req.body;
-            const icon = req.file.buffer.toString('utf-8');
+            const icon = req.file.buffer;
             const link = body.link;
             const title = body.tytul;
             const dscription = body.opis;

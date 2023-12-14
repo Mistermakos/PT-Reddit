@@ -34,9 +34,44 @@ export const addUser = async (req,res) =>
     }
 }
 
+export const editUser = async (req,res) => 
+{
+    try
+    {
+        if(req.session.user !== undefined)
+        {
+            const body = req.body;
+            const login = body.login;
+            const password = body.password;
+            const id = body.id;
+
+            const [re] = await (global.db).query("update users set login = ?, password = ? where id = ?", [login, sha512(password), id]);
+            res.redirect('/panel');
+            return 0;
+        }
+        else{res.redirect('/');}
+    }
+    catch(err)
+    {
+        res.redirect('/login');
+    }
+}
+
 export const deleteUser = (req,res) => 
 {
-
+    try
+    {
+        if(req.session.user !== undefined)
+        {
+            const re = (global.db).query("delete from users where id = ?", [req.body.id]);
+            res.redirect('/panel');
+        }
+        else{res.redirect('/');}
+    }
+    catch(err)
+    {
+        res.redirect('/');
+    }
 }
 
 

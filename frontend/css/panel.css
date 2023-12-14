@@ -1,0 +1,27 @@
+body
+{
+    background-color: #2C1B47;
+    display: grid;
+    place-items: center;
+    margin:0;
+}
+
+#everything
+{
+    width:77%;
+    height:100%;
+    background-color: #9356A0;
+}
+
+main
+{
+
+}
+
+.form_row 
+{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    text-align: center;
+}

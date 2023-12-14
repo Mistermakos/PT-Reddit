@@ -19,15 +19,22 @@ SubpagesRouter.route("/login")
   .post(await checkLogin);
 SubpagesRouter.route("/panel")
   .get(await getPanel);
+
 SubpagesRouter.route("/addUser")
   .post(await User.addUser);
-SubpagesRouter.route("/addPage")
+SubpagesRouter.route("/editUser")
+  .post(await User.editUser);
+SubpagesRouter.route("/deleteUser")
+  .post(await User.deleteUser);
+
+  SubpagesRouter.route("/addPage")
   .post(upload.single('plik'), await Page.addPage);
-SubpagesRouter.route("/deletePage")
-  .post(await Page.deletePage);
 SubpagesRouter.route("/editPage")
   .post(upload.single('plik'), await Page.updatePage)
-SubpagesRouter.route("/site_details/")
+SubpagesRouter.route("/deletePage")
+  .post(await Page.deletePage);
+
+  SubpagesRouter.route("/site_details/")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/site_details.html')))
   
 

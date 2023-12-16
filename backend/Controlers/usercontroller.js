@@ -10,7 +10,7 @@ export const getUser = async (query, user) =>
     }
     catch(err)
     {
-        throw err; 
+        return "Couldn't take user"
     }
 }
 

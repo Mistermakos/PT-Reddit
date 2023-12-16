@@ -10,7 +10,7 @@ const PagesData = fetch("http://localhost:3000/api/v1/Pages", { method:"GET"})
 
             document.getElementsByTagName('main')[0].innerHTML+=
             `
-                    <a class="window octagon-border" href="site_details/?id=${element.id}">
+                    <a class="window octagon-border" href="site_details/?id=${element.id}" target="_blank">
                         <div class="window-img">
                             <img id="${i}"/>
                         </div>

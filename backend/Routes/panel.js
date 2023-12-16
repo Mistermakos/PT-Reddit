@@ -140,7 +140,7 @@ const getPanel = async (req,res) =>
             res.redirect('/login');
         }
     }
-    catch(err){throw err; res.redirect('/');} // if any error occures
+    catch(err){res.redirect('/');} // if any error occures
 }
 
 export default getPanel;

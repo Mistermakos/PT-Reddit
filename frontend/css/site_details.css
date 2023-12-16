@@ -1,0 +1,34 @@
+body{
+    display: grid;
+    place-content: center;
+    margin:0;
+    height: 100vh;
+    width: 100%;
+    background-color: #9356A0;
+    color: #DCCAE9;
+}
+
+.data_box{
+    display: flex;
+    flex-direction: column;
+    background-color: #2C1B47;
+    box-sizing: border-box;
+    padding: 10%;
+    width: 30vw;
+    text-align: center;
+    height: fit-content;
+    box-shadow: 10px 5px 5px #0B0205;
+}
+
+.text{
+    padding: 5%;
+    font-size: 2em;
+    padding-top: 6%;
+    color: #DCCAE9;
+}
+
+h1
+{
+    font-size: 300%;
+    color: #ffffff;
+}

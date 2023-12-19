@@ -4,7 +4,7 @@ import * as users from "./Controlers/usercontroller.js"
 
 const dirname = path.resolve();
 
-const checkLogin = async(req,res) => 
+export const checkLogin = async(req,res) => 
 {   
     try{
         const tab = await users.getUser("login",req.body.login);
@@ -17,7 +17,7 @@ const checkLogin = async(req,res) =>
                 const [rows_2,fields_2] = await (global.db).query(`select user_id from super_users where user_id = ?`, [rows[0].id]);
                 
                 if(rows_2.length != 0){req.session.user = "s"+rows_2[0].user_id}
-                else{req.session.user = rows_2[0].user_id}
+                else{req.session.user = "u"+rows[0].id}
                 
                 res.redirect('/panel');
             }
@@ -28,6 +28,18 @@ const checkLogin = async(req,res) =>
     catch(err)
     {
         res.redirect('/') // bad 
+    }
+}
+
+export const logout = async (req, res) => 
+{
+    try{ 
+        req.session.user = undefined
+        res.redirect("/")
+    }
+    catch(err)
+    {
+        res.redirect('/') // Will not log out 
     }
 }
 

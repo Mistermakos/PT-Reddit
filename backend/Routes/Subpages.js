@@ -1,7 +1,7 @@
 import express from "express"
 import path from "path"
-import checkLogin from "../login.js"
-import getPanel from "../Routes/panel.js"
+import {checkLogin, logout} from "../login.js"
+import getPanel from "../Controlers/panel.js"
 import * as User from "../Controlers/usercontroller.js"
 import * as Page from "../Controlers/pagescontroller.js"
 import multer from "multer"
@@ -19,6 +19,8 @@ SubpagesRouter.route("/login")
   .post(await checkLogin);
 SubpagesRouter.route("/panel")
   .get(await getPanel);
+SubpagesRouter.route("/logout")
+  .get(await logout);
 
 SubpagesRouter.route("/addUser")
   .post(await User.addUser);

@@ -3,7 +3,7 @@
 const Display_data = (Data) => 
 {
     document.getElementsByTagName('main')[0].innerHTML=""
-    for (let i = 0 ; i < Data.Length; i++)
+    for (let i = 0 ; i < Data.length; i++)
     { 
             let element = Data.data[i]
 
@@ -19,17 +19,16 @@ const Display_data = (Data) =>
                         <div class="window-mask hexagon"></div>
                     </a>
             `
-            document.getElementById(i).src = "data:image/png;base64,"+Data.images[i];
     };  
-    // for(let i = 0; i< Data.Length; i++) To be deleted when checked
-    // {
-    //     document.getElementById(i).src = "data:image/png;base64,"+Data.images[i];
-    // }  
+    for(let i = 0; i< Data.length; i++) //To be deleted when checked
+    {
+        document.getElementById(i).src = "data:image/png;base64,"+Data.images[i];
+    }  
 }
 
 const Handler = (By_what, Value) => 
 {
-    const PagesData = fetch(`http://localhost:3000/api/v1/SearchBy${By_what}?param="${Value}"`, { method:"GET"}) 
+    const PagesData = fetch(`http://localhost:3000/api/v1/SearchBy${By_what}?param=${Value}`, { method:"GET"}) 
     .then((r) => r.json())
     .then((Data) => {
         Display_data(Data)  
@@ -50,18 +49,18 @@ const Pages = () =>
 const search = (what) => 
 {
     let Value = document.getElementById("text_input").value;
-    Value = Value.replace(" ", "%20");
+    Value.trim();
     switch (what) {
         case "Title":
             Handler("Title",Value);
         break;
         
         case "Author":
-            Author("Author",Value)
+            Handler("Author",Value)
         break;
 
         case "Link":
-            Link("Link",Value);
+            Handler("Link",Value);
         break;
 
         default:

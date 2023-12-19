@@ -3,32 +3,47 @@ import * as API from "../../Utilities/APIFeatures.js"
 import { getUser , addUser} from "./usercontroller.js";
 import fs from 'fs/promises'
 
+const APIReturn_success = (res, rows, image_array) => 
+{
+    res.status(201).json({
+        status:"success",
+        length: rows.length,
+        data: rows,
+        images: image_array
+    });
+}
+
+const APIReturn_fail = (res, err) => 
+{
+    res.status(401).json({
+        status:"fail",
+        message: "something went wrong: " + err.message
+    }) 
+}
+
+const getImages = async (rows) => 
+{
+    try
+    {
+        let image_array = []
+        rows.forEach(element => {
+            image_array.push(element.icon.toString('base64'))
+        });
+        return image_array;
+    }
+    catch(err){console.log("something went wrong");}
+}
+
 export const getAllPages = async (req,res) => 
 {
     try
     {
         var [rows,fields] = await (global.db).query("select * from sites order by creation_date");
-        var image_array = [];
+        var image_array = await getImages(rows);        
 
-        rows.forEach(element => {
-            image_array.push(element.icon.toString('base64'))
-        });
-
-
-       res.status(201).json({
-            status:"success",
-            Length: rows.length,
-            data: rows,
-            images: image_array
-        });
+        APIReturn_success(res, rows, image_array);
     }
-    catch(err)
-    {
-        res.status(401).json({
-                status:"fail",
-                message: err.message
-        }) 
-    }
+    catch(err){APIReturn_fail(res, err);}
 }
 
 export const getOnePage = async (req,res) => 
@@ -39,26 +54,11 @@ export const getOnePage = async (req,res) =>
         const id = (req.params.id).replace(":","")
 
         const [rows,fields] = await (global.db).query("select * from sites where id = ?", id);
-        console.log(rows);
-        var image_array = [];
-        rows.forEach(element => {
-            image_array.push(element.icon.toString('base64'))
-        });
+        const image_array = await getImages(rows);
 
-        res.status(201).json({
-            status:"success",
-            length: rows.length,
-            data: rows,
-            images: image_array
-        })
+        APIReturn_success(res, rows, image_array);
     }
-    catch(err)
-    {
-        res.status(401).json({
-            status:"fail",
-            message: err.message
-        })
-    }
+    catch(err){APIReturn_fail(res, err);}
 }
 
 //Aliases when refering to them do /searchby whatever you want and after it add ?(link|author|title)= string you want to add (space = %20, but users have -) 
@@ -67,63 +67,40 @@ export const getByAuthor = async (req,res) =>
 {
     try
     {
-        //console.log(req.query)
         const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` = (select id from users where login = ?) order by creation_date", [req.query.param]);
-        res.status(201).json({
-            status:"success",
-            length: rows.length,
-            data: rows
-        })
+        const image_array = await getImages(rows)
+
+        APIReturn_success(res, rows, image_array);
     }
-    catch(err)
-    {
-        res.status(401).json({
-                status:"fail",
-                message: err.message
-        }) 
-    }
+    catch(err){APIReturn_fail(res, err);}
 }
 
 export const getByTitle = async (req,res) => 
 {
     try
     {
-        //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE title like '%?%' order by creation_date", [req.query.param]);
-        res.status(201).json({
-            status:"success",
-            length: rows.length,
-            data: rows
-        })
+        let Value = req.query.param;
+        Value = "%" + Value + "%"
+        const [rows,fields] = await (global.db).query(`SELECT * FROM sites WHERE title like ? order by creation_date`, [Value]);
+        const image_array = await getImages(rows);
+        
+        APIReturn_success(res, rows, image_array);
     }
-    catch(err)
-    {
-        res.status(401).json({
-                status:"fail",
-                message: err.message
-        }) 
-    }
+    catch(err){APIReturn_fail(res, err);}
 }
 
 export const getByLink = async (req,res) => 
 {
     try
     {
-        //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link like '%?%' order by creation_date", [req.query.param]);
-        res.status(201).json({
-            status:"success",
-            length: rows.length,
-            data: rows
-        })
+        let Value = req.query.param;
+        Value = "%" + Value + "%"
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link like ? order by creation_date", [Value]);
+        const image_array = await getImages(rows);
+
+        APIReturn_success(res, rows, image_array);
     }
-    catch(err)
-    {
-        res.status(401).json({
-                status:"fail",
-                message: err.message
-        }) 
-    }
+    catch(err){APIReturn_fail(res, err);}
 }
 
 export const addPage = async (req,res) => {
@@ -146,7 +123,7 @@ export const addPage = async (req,res) => {
         }
         catch(err)
         {
-            throw err; res.redirect('/login');
+            res.redirect('/login');
         }
 }
 

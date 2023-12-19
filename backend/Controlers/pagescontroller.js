@@ -89,7 +89,7 @@ export const getByTitle = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE title = ? order by creation_date", [req.query.param]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE title like '%?%' order by creation_date", [req.query.param]);
         res.status(201).json({
             status:"success",
             length: rows.length,
@@ -110,7 +110,7 @@ export const getByLink = async (req,res) =>
     try
     {
         //console.log(req.query)
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link = ? order by creation_date", [req.query.param]);
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link like '%?%' order by creation_date", [req.query.param]);
         res.status(201).json({
             status:"success",
             length: rows.length,

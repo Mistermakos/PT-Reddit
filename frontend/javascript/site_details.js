@@ -18,7 +18,6 @@ const PagesData = fetch("http://localhost:3000/api/v1/Pages:"+idParamValue, { me
                 <span class="text">${element.description}</span>
             </div>
         `  
-
         document.getElementById("image").src = "data:image/png;base64,"+Data.images[0]; // Fills image with buffer for png
         document.title = element.title // changes title
         })

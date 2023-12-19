@@ -27,7 +27,7 @@ const Display_data = (Data) =>
     // }  
 }
 
-const Handler = (By_what, Value_name, Value) => 
+const Handler = (By_what, Value) => 
 {
     const PagesData = fetch(`http://localhost:3000/api/v1/SearchBy${By_what}?param="${Value}"`, { method:"GET"}) 
     .then((r) => r.json())
@@ -53,15 +53,15 @@ const search = (what) =>
     Value = Value.replace(" ", "%20");
     switch (what) {
         case "Title":
-            Handler("Title","tile",Value);
+            Handler("Title",Value);
         break;
         
         case "Author":
-            Author("Author","author",Value)
+            Author("Author",Value)
         break;
 
         case "Link":
-            Link("Link","link",Value);
+            Link("Link",Value);
         break;
 
         default:
@@ -69,3 +69,5 @@ const search = (what) =>
         break;
     }
 }
+
+search();

@@ -10,7 +10,6 @@ const Page = async (req) =>
 
         let userId =  req.session.user
         userId =  userId.replace(/\D/g, "");
-        console.log(userId)
         const [rows,fields] = await (global.db).query("select * from sites where author_id = ?", userId);
 
         const addPage = `<form action="/addPage" enctype="multipart/form-data" method="POST">
@@ -122,7 +121,6 @@ const User = async (req) =>
 const getPanel = async (req,res) => 
 {
     try{
-        console.log(req.session.user)
         if(req.session.user !== undefined)
         {
             // Loading file each time is required. If it were in top-level code, it would not work

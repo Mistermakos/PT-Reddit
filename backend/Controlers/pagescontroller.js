@@ -31,7 +31,7 @@ const getImages = async (rows) =>
         });
         return image_array;
     }
-    catch(err){console.log("something went wrong");}
+    catch(err){return "something went wrong";}
 }
 
 export const getAllPages = async (req,res) => 
@@ -53,7 +53,7 @@ export const getOnePage = async (req,res) =>
         
         const id = (req.params.id).replace(":","")
 
-        const [rows,fields] = await (global.db).query("select * from sites where id = ?", id);
+        const [rows,fields] = await (global.db).query("select *, (select Avg(rate) from ratings where site_id = ? ) as `rating` from sites where id = ?", [id,id]);
         const image_array = await getImages(rows);
 
         APIReturn_success(res, rows, image_array);
@@ -133,6 +133,7 @@ export const deletePage = async (req,res) =>
     {   
         if(req.session.user !== undefined)
         {
+            const [response] = await (global.db).query("delete from ratings where site_id = ?", [parseInt(req.body.id)]);
             const [re] = await (global.db).query("delete from sites where id = ?", [parseInt(req.body.id)]);
             res.redirect('/panel');
             return 0;
@@ -141,6 +142,7 @@ export const deletePage = async (req,res) =>
     }
     catch(err)
     {
+        throw err;
         res.redirect('/login');
     }
 }

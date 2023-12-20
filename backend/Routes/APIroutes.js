@@ -1,17 +1,22 @@
 import express from "express"
 import * as Pages from "../Controlers/pagescontroller.js"
+import * as Rating from "../Controlers/ratingscontroller.js"
 const router = express.Router()
 
 router.route("/Pages")
   .get(await Pages.getAllPages)
   .post(Pages.addPage)
 router.route("/Pages:id")
-  .get(Pages.getOnePage)
+  .get(await Pages.getOnePage)
 router.route("/SearchByAuthor")
-  .get(Pages.getByAuthor)
+  .get(await Pages.getByAuthor)
 router.route("/SearchByTitle")
-  .get(Pages.getByTitle)
+  .get(await Pages.getByTitle)
 router.route("/SearchByLink")
-  .get(Pages.getByLink)
+  .get(await Pages.getByLink)
+router.route("/AddRating")
+  .post(await Rating.addRating)
+router.route("/getRating")
+  .get(await Rating.getRating)
   
 export default router

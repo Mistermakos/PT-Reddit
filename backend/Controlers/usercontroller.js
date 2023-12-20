@@ -63,6 +63,8 @@ export const deleteUser = (req,res) =>
     {
         if(req.session.user !== undefined)
         {
+            const result = (global.db).query("delete from ratings where user_id = ?", [req.body.id]);
+            const response = (global.db).query("delete from sites where author_id = ?", [req.body.id]);
             const re = (global.db).query("delete from users where id = ?", [req.body.id]);
             res.redirect('/panel');
         }
@@ -70,6 +72,7 @@ export const deleteUser = (req,res) =>
     }
     catch(err)
     {
+        throw err;
         res.redirect('/');
     }
 }

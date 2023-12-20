@@ -3,14 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <link rel="shortcut icon" href="../img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/main.css" type="text/css">
+    <link rel="stylesheet" href="../css/login.css" type="text/css">
 </head>
-
 <body>
-    <form method="POST" action="/login">
-        <input name="login" type="text"/>
-        <input name="password" type="password"/>
-        <input type="submit"/>
-    </form>
+    <div class="main-bg"></div>
+    <div class="root-container">
+        <header>
+            <div class="logo-box">
+                <a href="/"><div class="title"><span class="colored-text">3 PT</span>Reddit</div></a>
+            </div>
+            
+            <div class="menu">
+                <div class="list-container add-list" style="--items-quantity: 3; --direction: -1;">
+                    <div class="btn hexagon">More</div>       
+                    <ul class="list">
+                        <li class="list-item hexagon"><a tabindex="-1" class="btn hexagon inverted-colors" href="show liked">Likes</a></li>
+                    </ul>
+                </div>
+                <a tabindex="-1" class="right-menu-btn hexagon btn inverted-colors" href="/panel">Panel</a>
+            </div>
+        </header>
+        <main>
+            <form method="POST" action="/login">
+                <input name="login" type="text"/>
+                <input name="password" type="password"/>
+                <input type="submit"/>
+            </form>
+        </main>
+        <footer>
+            Copyright © 2023 by Maciej Grzesiak, Marek Kandulski, Adam Mianowski. All Rights Reserved.
+        </footer>
+    </div>
 </body>
 </html>

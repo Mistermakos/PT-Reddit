@@ -8,15 +8,10 @@ body
 
 #everything
 {
-    width:77%;
-    height:100%;
-    background-color: #9356A0;
+    width:75%;
+    position: absolute;
 }
 
-main
-{
-
-}
 
 .form_row 
 {

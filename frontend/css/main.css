@@ -278,22 +278,19 @@ header {
     transition-delay: var(--item-list-duration);
 }
 
-/*****************************************************************************************/
+/*****************************************************************************************
+
+    Rest of main is in other file: main_body.css
+
+******************************************************************************************/
 
 main {
     background-color: var(--main-bg-color);
     display: grid;
-    grid-template-columns: repeat(auto-fill, var(--window-width));
-    grid-template-rows: repeat(auto-fill, var(--window-height));
-    justify-content: center;
-    justify-items: center;
-    
-    gap: var(--main-gap);
-    padding: var(--main-gap);
-    align-content: start;
 }
 
-/******************************************************************************************/
+/*****************************************************************************************/
+
 
 .window {
     height: var(--window-height);

@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+main
+{
+    place-content: center;
+}
+
+main > form
+{
+    position: absolute;
+    place-self: center;
+    width: 50%;
+    height: 30%;
+    text-align: center;
+    padding: 1%;
+}
+
+main > form > *
+{
+    padding: 1%;
+}
+
+input
+{
+    border:0;
+}
+=======
 main > form
 {
     display: flex;
@@ -5,3 +31,4 @@ main > form
     width: 100%;
     height: 100%;
 }
+>>>>>>> eedfefba25206b9a298d4c36e3b179d79e47e683

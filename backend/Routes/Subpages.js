@@ -21,6 +21,8 @@ SubpagesRouter.route("/panel")
   .get(await getPanel);
 SubpagesRouter.route("/logout")
   .get(await logout);
+SubpagesRouter.route("/likes")
+  .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/likes.html')))
 
 SubpagesRouter.route("/addUser")
   .post(await User.addUser);

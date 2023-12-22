@@ -3,6 +3,8 @@ import * as Pages from "../Controlers/pagescontroller.js"
 import * as Rating from "../Controlers/ratingscontroller.js"
 const router = express.Router()
 
+//Routes for API
+
 router.route("/Pages")
   .get(await Pages.getAllPages)
   .post(Pages.addPage)

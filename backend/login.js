@@ -21,14 +21,11 @@ export const checkLogin = async(req,res) =>
                 
                 res.redirect('/panel');
             }
-            else{res.redirect('/');} // bad 
+            else{res.redirect('/login');} // bad 
         }
-        else{res.redirect('/');} // bad 
+        else{res.redirect('/login');} // bad 
     }
-    catch(err)
-    {
-        res.redirect('/') // bad 
-    }
+    catch(err){res.redirect('/')}
 }
 
 export const logout = async (req, res) => 
@@ -37,8 +34,7 @@ export const logout = async (req, res) =>
         req.session.user = undefined
         res.redirect("/")
     }
-    catch(err)
-    {
+    catch(err){
         res.redirect('/') // Will not log out 
     }
 }

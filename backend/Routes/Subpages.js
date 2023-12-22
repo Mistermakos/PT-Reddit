@@ -6,11 +6,12 @@ import * as User from "../Controlers/usercontroller.js"
 import * as Page from "../Controlers/pagescontroller.js"
 import multer from "multer"
 const SubpagesRouter = express.Router()
-
 const dirname = path.resolve();
 
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
+
+// Routes for page
 
 SubpagesRouter.route("")
   .get((req,res) => res.sendFile(path.join(dirname, '/frontend/subpages/index.html')));

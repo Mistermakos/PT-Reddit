@@ -2,12 +2,12 @@
 
 const Display_data = (Data) => 
 {
-    document.getElementsByTagName('main')[0].innerHTML=""
+    document.getElementsByTagName('main')[0].innerHTML="" // clears main
     for (let i = 0 ; i < Data.length; i++)
     { 
             let element = Data.data[i]
 
-            document.getElementsByTagName('main')[0].innerHTML+=
+            document.getElementsByTagName('main')[0].innerHTML+= 
             `
                     <a class="window octagon-border" href="site_details/?id=${element.id}" target="_blank">
                         <div class="window-img">
@@ -19,14 +19,15 @@ const Display_data = (Data) =>
                         <div class="window-mask hexagon"></div>
                     </a>
             `
+            //Adds icon with elements
     };  
-    for(let i = 0; i< Data.length; i++) //To be deleted when checked
+    for(let i = 0; i< Data.length; i++)
     {
-        document.getElementById(i).src = "data:image/png;base64,"+Data.images[i];
+        document.getElementById(i).src = "data:image/png;base64,"+Data.images[i]; // adds icon
     }  
 }
 
-const Handler = (By_what, Value) => 
+const Handler = (By_what, Value) => // Function for filtring data
 {
     const PagesData = fetch(`http://localhost:3000/api/v1/SearchBy${By_what}?param=${Value}`, { method:"GET"}) 
     .then((r) => r.json())
@@ -36,7 +37,7 @@ const Handler = (By_what, Value) =>
     .catch((e) =>  console.log(e));
 }
 
-const Pages = () => 
+const Pages = () => // geting all pages
 {
     const PagesData = fetch(`http://localhost:3000/api/v1/Pages`, { method:"GET"}) 
     .then((r) => r.json())
@@ -46,7 +47,7 @@ const Pages = () =>
     .catch((e) =>  console.log(e));
 }
 
-const search = (what) => 
+const search = (what) => //when searching
 {
     let Value = document.getElementById("text_input").value;
     Value.trim();
@@ -69,4 +70,4 @@ const search = (what) =>
     }
 }
 
-search();
+search(); // loads basic data

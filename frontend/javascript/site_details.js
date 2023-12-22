@@ -2,7 +2,7 @@ var currentUrl = window.location.search; // takes URL
 var params = new URLSearchParams(currentUrl); // takes params
 var idParamValue = params.get('id'); // takes id from params
 
-const addrating = () => 
+const addrating = () => //adding rating
 {
     const Value = document.getElementsByName("rate")[0].value;
     const result = fetch("http://localhost:3000/api/v1/AddRating?pageId="+idParamValue+"&rating="+Value, {method:"post"})

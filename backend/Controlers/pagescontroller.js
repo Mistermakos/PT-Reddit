@@ -3,7 +3,7 @@ import * as API from "../../Utilities/APIFeatures.js"
 import { getUser , addUser} from "./usercontroller.js";
 import fs from 'fs/promises'
 
-const APIReturn_success = (res, rows, image_array) => 
+const APIReturn_success = (res, rows, image_array) => // For sending successfull responses
 {
     res.status(201).json({
         status:"success",
@@ -13,20 +13,20 @@ const APIReturn_success = (res, rows, image_array) =>
     });
 }
 
-const APIReturn_fail = (res, err) => 
+const APIReturn_fail = (res, err) => //For sending unsuccessfull responses
 {
     res.status(401).json({
         status:"fail",
-        message: "something went wrong: " + err.message
+        message: "something went wrong: " + err.message // May be change, although User might want to send what happend to him/her.
     }) 
 }
 
-const getImages = async (rows) => 
+const getImages = async (rows) => // Creates array of images from icon, because i had a problem with changing icon for every record
 {
     try
     {
         let image_array = []
-        rows.forEach(element => {
+        rows.forEach(element => { // loops through every record and changes buffer into image string
             image_array.push(element.icon.toString('base64'))
         });
         return image_array;
@@ -34,40 +34,41 @@ const getImages = async (rows) =>
     catch(err){return "something went wrong";}
 }
 
-export const getAllPages = async (req,res) => 
+export const getAllPages = async (req,res) => // For index page (When using a lot of data, you might want to use offset and limit)
 {
     try
     {
-        var [rows,fields] = await (global.db).query("select * from sites order by creation_date");
-        var image_array = await getImages(rows);        
+        var [rows,fields] = await (global.db).query("select * from sites order by rating"); // Might be ordered by Rating/Creation date. Up to you
+        var image_array = await getImages(rows); // Gets array of images      
 
         APIReturn_success(res, rows, image_array);
     }
     catch(err){APIReturn_fail(res, err);}
 }
 
-export const getOnePage = async (req,res) => 
+export const getOnePage = async (req,res) => // For site_details page, gets specific values
 {
     try
     {
         
-        const id = (req.params.id).replace(":","")
+        const id = (req.params.id).replace(":","") // For learning how to use : id on pages
+        // might be replaced with simple query, but you would have to change it in routes file 
 
+        // Gets id, title, icon, description, link, id of author, date (when was added) and rating for the page
         const [rows,fields] = await (global.db).query("select *, (select Avg(rate) from ratings where site_id = ? ) as `rating` from sites where id = ?", [id,id]);
-        const image_array = await getImages(rows);
+        const image_array = await getImages(rows); // gets image
 
         APIReturn_success(res, rows, image_array);
     }
     catch(err){APIReturn_fail(res, err);}
 }
 
-//Aliases when refering to them do /searchby whatever you want and after it add ?(link|author|title)= string you want to add (space = %20, but users have -) 
-
-export const getByAuthor = async (req,res) => 
+export const getByAuthor = async (req,res) => // For filtering data by author
 {
     try
     {
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` = (select id from users where login = ?) order by creation_date", [req.query.param]);
+        const author = "%" + req.query.param + "%"
+        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` in (select id from users where login like ?) order by creation_date", author);
         const image_array = await getImages(rows)
 
         APIReturn_success(res, rows, image_array);
@@ -75,7 +76,7 @@ export const getByAuthor = async (req,res) =>
     catch(err){APIReturn_fail(res, err);}
 }
 
-export const getByTitle = async (req,res) => 
+export const getByTitle = async (req,res) => // For filtering data by title
 {
     try
     {
@@ -89,7 +90,7 @@ export const getByTitle = async (req,res) =>
     catch(err){APIReturn_fail(res, err);}
 }
 
-export const getByLink = async (req,res) => 
+export const getByLink = async (req,res) => // For filtering data by link
 {
     try
     {
@@ -103,7 +104,7 @@ export const getByLink = async (req,res) =>
     catch(err){APIReturn_fail(res, err);}
 }
 
-export const addPage = async (req,res) => {
+export const addPage = async (req,res) => { // Ading page into database
         try
         {
             if(req.session.user !== undefined)
@@ -113,21 +114,19 @@ export const addPage = async (req,res) => {
                 const link = body.link;
                 const tytul = body.tytul;
                 const opis = body.opis;
-                const user =  req.session.user.substr(-1);
+                let user =  req.session.user // id has form of: "1id" where 1 is s/u, s = super user, u = normal user and id has id
+                user = user.replace(/\D/g, "");
                 const curDate = new Date();
                 const [re] = await (global.db).query("INSERT INTO sites VALUES (NULL, ?, ?, ?, ?, ?, ?);", [plik, link, tytul, opis, user, curDate]);
-                res.redirect("/panel")
+                res.redirect("/panel") // sending back to panel page
                 return 0;
             }
-            else{res.redirect('/');}
+            else{res.redirect('/login');} // if not loged in, 
         }
-        catch(err)
-        {
-            res.redirect('/login');
-        }
+        catch(err){res.redirect('/');}
 }
 
-export const deletePage = async (req,res) => 
+export const deletePage = async (req,res) => // deleting page
 {
     try
     {   
@@ -138,16 +137,12 @@ export const deletePage = async (req,res) =>
             res.redirect('/panel');
             return 0;
         }
-        else{res.redirect('/');}
+        else{res.redirect('/login');}
     }
-    catch(err)
-    {
-        throw err;
-        res.redirect('/login');
-    }
+    catch(err){res.redirect('/');}
 }
 
-export const updatePage = async (req,res) => 
+export const updatePage = async (req,res) => // Updating page
 {
     try
     {   
@@ -163,10 +158,7 @@ export const updatePage = async (req,res) =>
             res.redirect('/panel');
             return 0;
         }
-        else{res.redirect('/');}
+        else{res.redirect('/login');}
     }
-    catch(err)
-    {
-        res.redirect('/login');
-    }
+    catch(err){res.redirect('/');}
 }

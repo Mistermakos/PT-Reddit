@@ -2,7 +2,7 @@ import path from "path";
 import {promises as fs} from "fs";
 const dirname = path.resolve();
 
-const Page = async (req) => 
+const Page = async (req) => // From for adding, editing and deleting page
 {
     try
     {    
@@ -45,7 +45,7 @@ const Page = async (req) =>
 
         let options = ""
                 
-        rows.forEach(element => {
+        rows.forEach(element => { // adding all fields user has access to ()
             options += `<option value='${element.id}'>${element.id} ${element.title}</option>` 
         });
 
@@ -58,13 +58,10 @@ const Page = async (req) =>
 
         return tekst;
     }
-    catch(err)
-    {
-        return "Problem occured";
-    }
+    catch(err){return "Problem occured";}
 }
 
-const User = async (req) =>
+const User = async (req) => // Same as pages, but for users
 {
     try
     {
@@ -111,34 +108,27 @@ const User = async (req) =>
 
         return tekst;
     }
-    catch(err)
-    {
-        throw err;
-        return "Problem Occured";
-    }
+    catch(err){return "Problem Occured";}
 } 
 
-const getPanel = async (req,res) => 
+const getPanel = async (req,res) => // returning panel
 {
     try{
         if(req.session.user !== undefined)
         {
-            // Loading file each time is required. If it were in top-level code, it would not work
+            // Loading file each time is required. If it were in top-level code, it would not work because it would change once and for 1 user.
             let panel = await fs.readFile(path.join(dirname, '/frontend/subpages/panel.html'),'utf-8')
 
-            if(req.session.user[0]=="s") // checking if user is super user
+            if(req.session.user[0]=="s") // checking if user is super user, if he/she is then they have access to Users
             {
                 const Users = await User(req);
                 panel = panel.replace("[%body%]", `${Users} [%body%]`)
             }   
-
-            const pages = await Page(req);
+            const pages = await Page(req); // Giving access for Pages
             panel = panel.replace("[%body%]", `${pages}`)
-
             res.send(panel)
         }
-        else // If sombody not logged in wanted to go to path /panel, he/she will be redirected
-        {
+        else{ // If sombody not logged in wanted to go to path /panel, he/she will be redirected
             res.redirect('/login');
         }
     }

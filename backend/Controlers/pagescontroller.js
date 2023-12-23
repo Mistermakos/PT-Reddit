@@ -38,7 +38,7 @@ export const getAllPages = async (req,res) => // For index page (When using a lo
 {
     try
     {
-        var [rows,fields] = await (global.db).query("select * from sites order by rating"); // Might be ordered by Rating/Creation date. Up to you
+        var [rows,fields] = await (global.db).query("select * from sites order by creation_date"); // Might be ordered by Rating/Creation date. Up to you
         var image_array = await getImages(rows); // Gets array of images      
 
         APIReturn_success(res, rows, image_array);
@@ -68,7 +68,7 @@ export const getByAuthor = async (req,res) => // For filtering data by author
     try
     {
         const author = "%" + req.query.param + "%"
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE `author_id` in (select id from users where login like ?) order by creation_date", author);
+        const [rows,fields] = await (global.db).query("SELECT * FROM `sites` WHERE `author_id` in (select id from users where login like ?) order by creation_date", author);
         const image_array = await getImages(rows)
 
         APIReturn_success(res, rows, image_array);
@@ -96,7 +96,7 @@ export const getByLink = async (req,res) => // For filtering data by link
     {
         let Value = req.query.param;
         Value = "%" + Value + "%"
-        const [rows,fields] = await (global.db).execute("SELECT * FROM `sites` WHERE link like ? order by creation_date", [Value]);
+        const [rows,fields] = await (global.db).query("SELECT * FROM `sites` WHERE link like ? order by creation_date", [Value]);
         const image_array = await getImages(rows);
 
         APIReturn_success(res, rows, image_array);

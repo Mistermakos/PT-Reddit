@@ -56,14 +56,17 @@ export const deleteUser = (req,res) => //Deletes user, pages they added and rati
     {
         if(req.session.user !== undefined)
         {
-            const result = (global.db).query("delete from ratings where user_id = ?", [req.body.id]);
-            const response = (global.db).query("delete from sites where author_id = ?", [req.body.id]);
-            const re = (global.db).query("delete from users where id = ?", [req.body.id]);
+            const user =parseInt(req.body.id)
+            const del = (global.db).query("delete from super_users where user_id = ?", user)
+            const rows = (global.db).query("delete from ratings where user_id = ?;", user)
+            const rows2  = (global.db).query("delete from sites where author_id = ?;", user)
+            const rows3  = (global.db).query("delete from users where id = ?;", user)
             res.redirect('/panel');
         }
         else{res.redirect('/login');}
     }
-    catch(err){res.redirect('/');}
+    catch(err){ throw err;
+        res.redirect('/');}
 }
 
 

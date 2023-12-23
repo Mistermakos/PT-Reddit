@@ -86,7 +86,7 @@ const User = async (req) => // Same as pages, but for users
         </form>`
                             
         let deleteUser = `<form action="/deleteUser" method="POST">
-            <h3>Delete Page:</h3>
+            <h3>Delete User:</h3>
             <select name='id' required>
                 [%selectOptions%]
             </select>

@@ -5,13 +5,14 @@ CREATE TABLE `ratings` (
 );
 
 CREATE TABLE `sites` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `icon` blob DEFAULT NULL,
   `link` text DEFAULT NULL,
   `title` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `author_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `creation_date` date DEFAULT NULL
+  `creation_date` date DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE `super_users` (
@@ -19,9 +20,10 @@ CREATE TABLE `super_users` (
 );
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `login` varchar(100) NOT NULL,
-  `password` char(128) NOT NULL
+  `password` char(128) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 ALTER TABLE `ratings`
@@ -29,14 +31,10 @@ ALTER TABLE `ratings`
   ADD KEY `site_id` (`site_id`);
 
 ALTER TABLE `sites`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `author_id` (`author_id`);
 
 ALTER TABLE `super_users`
   ADD KEY `user_id` (`user_id`);
-
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `ratings`
   ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),

@@ -123,7 +123,9 @@ export const addPage = async (req,res) => { // Ading page into database
             }
             else{res.redirect('/login');} // if not loged in, 
         }
-        catch(err){res.redirect('/');}
+        catch(err){
+            throw err;
+            res.redirect('/');}
 }
 
 export const deletePage = async (req,res) => // deleting page

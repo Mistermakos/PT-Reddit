@@ -28,7 +28,9 @@ export const addUser = async (req,res) => // Adds user
         }
         else{res.redirect('/login');}
     }
-    catch(err){res.redirect('/');}
+    catch(err){
+        throw err;
+        res.redirect('/');}
 }
 
 export const editUser = async (req,res) => // Edits user

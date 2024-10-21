@@ -1,18 +1,21 @@
 import path from "path";
-import {promises as fs} from "fs";
+import { promises as fs } from "fs";
 const dirname = path.resolve();
 
-const Page = async (req) => // From for adding, editing and deleting page
-{
-    try
-    {    
-        let tekst = `<div class = "form_row"> [%AddPage%] [%EditPage%] [%DeletePage%] </div>`;
+const Page = async (
+  req // From for adding, editing and deleting page
+) => {
+  try {
+    let tekst = `<div class = "form_row"> [%AddPage%] [%EditPage%] [%DeletePage%] </div>`;
 
-        let userId =  req.session.user
-        userId =  userId.replace(/\D/g, "");
-        const [rows,fields] = await (global.db).query("select * from sites where author_id = ?", userId);
+    let userId = req.session.user;
+    userId = userId.replace(/\D/g, "");
+    const [rows, fields] = await global.db.query(
+      "select * from sites where author_id = ?",
+      userId
+    );
 
-        const addPage = `<form action="/addPage" enctype="multipart/form-data" method="POST">
+    const addPage = `<form action="/addPage" enctype="multipart/form-data" method="POST">
             <h3>Add Page:</h3>
             <p>Give icon: <input name='plik' type="file" accept=".png" id="file1" required/></p>
             <p>Link: <input name='link' type="text" required/></p>
@@ -20,9 +23,9 @@ const Page = async (req) => // From for adding, editing and deleting page
             <p>Opis: <input name='opis' type='text' required/>
             <br>
             <input type="submit"/></p>
-        </form>`
+        </form>`;
 
-        let editPage = `<form action="/editPage" enctype="multipart/form-data" method="POST">
+    let editPage = `<form action="/editPage" enctype="multipart/form-data" method="POST">
         <h3>edit Page:</h3>
         <select name='id' required>
             [%selectOptions%]
@@ -33,49 +36,51 @@ const Page = async (req) => // From for adding, editing and deleting page
             <p>Opis: <input name='opis' type='text' required/>
             <br>
             <input type="submit"/></p>
-        </form>`
-                            
-        let deletePage = `<form action="/deletePage" method="POST">
+        </form>`;
+
+    let deletePage = `<form action="/deletePage" method="POST">
             <h3>Delete Page:</h3>
             <select name='id' required>
                 [%selectOptions%]
             </select>
             <p><input type="submit"/></p>
-        </form>`
+        </form>`;
 
-        let options = ""
-                
-        rows.forEach(element => { // adding all fields user has access to ()
-            options += `<option value='${element.id}'>${element.id} ${element.title}</option>` 
-        });
+    let options = "";
 
-        deletePage = deletePage.replace('[%selectOptions%]', options)
-        editPage = editPage.replace('[%selectOptions%]', options)
+    rows.forEach((element) => {
+      // adding all fields user has access to ()
+      options += `<option value='${element.id}'>${element.id} ${element.title}</option>`;
+    });
 
-        tekst = tekst.replace('[%AddPage%]', addPage)
-        tekst = tekst.replace('[%EditPage%]', editPage)
-        tekst = tekst.replace('[%DeletePage%]', deletePage)
+    deletePage = deletePage.replace("[%selectOptions%]", options);
+    editPage = editPage.replace("[%selectOptions%]", options);
 
-        return tekst;
-    }
-    catch(err){return "Problem occured";}
-}
+    tekst = tekst.replace("[%AddPage%]", addPage);
+    tekst = tekst.replace("[%EditPage%]", editPage);
+    tekst = tekst.replace("[%DeletePage%]", deletePage);
 
-const User = async (req) => // Same as pages, but for users
-{
-    try
-    {
-        let tekst = `<div class = "form_row"> [%AddUser%] [%EditUser%] [%DeleteUser%] </div>`;
-        const [rows,fields] = await (global.db).query("select * from users");
+    return tekst;
+  } catch (err) {
+    return "Problem occured";
+  }
+};
 
-        const addUser = `<form action="/addUser" method="POST">
+const User = async (
+  req // Same as pages, but for users
+) => {
+  try {
+    let tekst = `<div class = "form_row"> [%AddUser%] [%EditUser%] [%DeleteUser%] </div>`;
+    const [rows, fields] = await global.db.query("select * from users");
+
+    const addUser = `<form action="/addUser" method="POST">
             <h3>Add User:</h3>
             <p>Login: <input type="text" name="login" required/></p>
             <p>Password: <input type="password" name="password" required/></p>
             <p><input type="submit" required/></p>
-        </form>`
+        </form>`;
 
-        let editUser = `<form action="/editUser" method="POST">
+    let editUser = `<form action="/editUser" method="POST">
             <h3>Edit User:</h3>
             <select name='id' required>
                 [%selectOptions%]
@@ -83,56 +88,62 @@ const User = async (req) => // Same as pages, but for users
             <p>Login: <input type="text" name="login" required/></p>
             <p>Password: <input type="password" name="password" required/></p>
             <p><input type="submit" required/></p>
-        </form>`
-                            
-        let deleteUser = `<form action="/deleteUser" method="POST">
+        </form>`;
+
+    let deleteUser = `<form action="/deleteUser" method="POST">
             <h3>Delete User:</h3>
             <select name='id' required>
                 [%selectOptions%]
             </select>
             <p><input type="submit"/></p>
-        </form>`
+        </form>`;
 
-        let options = ""
-                
-        rows.forEach(element => {
-            options += `<option value='${element.id}'>${element.id} ${element.login}</option>` 
-        });
+    let options = "";
 
-        editUser = editUser.replace('[%selectOptions%]', options)
-        deleteUser = deleteUser.replace('[%selectOptions%]', options)
+    rows.forEach((element) => {
+      options += `<option value='${element.id}'>${element.id} ${element.login}</option>`;
+    });
 
-        tekst = tekst.replace('[%AddUser%]', addUser)
-        tekst = tekst.replace('[%EditUser%]', editUser)
-        tekst = tekst.replace('[%DeleteUser%]', deleteUser)
+    editUser = editUser.replace("[%selectOptions%]", options);
+    deleteUser = deleteUser.replace("[%selectOptions%]", options);
 
-        return tekst;
+    tekst = tekst.replace("[%AddUser%]", addUser);
+    tekst = tekst.replace("[%EditUser%]", editUser);
+    tekst = tekst.replace("[%DeleteUser%]", deleteUser);
+
+    return tekst;
+  } catch (err) {
+    return "Problem Occured";
+  }
+};
+
+const getPanel = async (
+  req,
+  res // returning panel
+) => {
+  try {
+    if (req.session.user !== undefined) {
+      // Loading file each time is required. If it were in top-level code, it would not work because it would change once and for 1 user.
+      let panel = await fs.readFile(
+        path.join(dirname, "/frontend/subpages/panel.html"),
+        "utf-8"
+      );
+
+      if (req.session.user[0] == "s") {
+        // checking if user is super user, if he/she is then they have access to Users
+        const Users = await User(req);
+        panel = panel.replace("[%body%]", `${Users} [%body%]`);
+      }
+      const pages = await Page(req); // Giving access for Pages
+      panel = panel.replace("[%body%]", `${pages}`);
+      res.send(panel);
+    } else {
+      // If sombody not logged in wanted to go to path /panel, he/she will be redirected
+      res.redirect("/login");
     }
-    catch(err){return "Problem Occured";}
-} 
-
-const getPanel = async (req,res) => // returning panel
-{
-    try{
-        if(req.session.user !== undefined)
-        {
-            // Loading file each time is required. If it were in top-level code, it would not work because it would change once and for 1 user.
-            let panel = await fs.readFile(path.join(dirname, '/frontend/subpages/panel.html'),'utf-8')
-
-            if(req.session.user[0]=="s") // checking if user is super user, if he/she is then they have access to Users
-            {
-                const Users = await User(req);
-                panel = panel.replace("[%body%]", `${Users} [%body%]`)
-            }   
-            const pages = await Page(req); // Giving access for Pages
-            panel = panel.replace("[%body%]", `${pages}`)
-            res.send(panel)
-        }
-        else{ // If sombody not logged in wanted to go to path /panel, he/she will be redirected
-            res.redirect('/login');
-        }
-    }
-    catch(err){res.redirect('/');} // if any error occures
-}
+  } catch (err) {
+    res.redirect("/");
+  } // if any error occures
+};
 
 export default getPanel;

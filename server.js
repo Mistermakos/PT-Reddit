@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 import mysql from "mysql2/promise";
-import app from "./backend/app.js";
+import app from "./server/app.js";
 
 const conn = await mysql.createConnection({
   host: process.env.HOST,

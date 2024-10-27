@@ -3,12 +3,9 @@ import { getAllPagesController } from "./pagesController";
 
 const pagesRouter = Router();
 
+pagesRouter.route("/").get(getAllPagesController).post(addPageController);
 pagesRouter
-  .route("/Page")
-  .get(getAllPagesController)
-  .post(addPageController)
-pagesRouter
-  .route("/Page/id")
+  .route("/id")
   .get(getOnePageController)
   .update(updatePageController)
   .delete(deletePageController);

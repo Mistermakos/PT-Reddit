@@ -42,159 +42,39 @@ import fs from "fs/promises";
 // };
 
 export const getAllPagesController = async () => {
-  const data = getAllPagesView();
+  try {
+    const data = await getAllPagesView();
+    return data;
+  } catch (err) {
+    //ERROR
+  }
+};
+
+export const getOnePageController = async () => {
+  const data = await getOnePageView();
   return data;
 };
 
-export const getOnePage = async (
-  req,
-  res // For site_details page, gets specific values
-) => {
+export const addOnePageController = async (req, res) => {
   try {
-    const id = req.params.id.replace(":", ""); // For learning how to use : id on pages
-    // might be replaced with simple query, but you would have to change it in routes file
-
-    // Gets id, title, icon, description, link, id of author, date (when was added) and rating for the page
-    const [rows, fields] = await global.db.query(
-      "select *, (select Avg(rate) from ratings where site_id = ? ) as `rating` from sites where id = ?",
-      [id, id]
-    );
-    const image_array = await getImages(rows); // gets image
-
-    APIReturn_success(res, rows, image_array);
-  } catch (err) {
-    APIReturn_fail(res, err);
-  }
-};
-
-export const getByAuthor = async (
-  req,
-  res // For filtering data by author
-) => {
-  try {
-    const author = "%" + req.query.param + "%";
-    const [rows, fields] = await global.db.query(
-      "SELECT * FROM `sites` WHERE `author_id` in (select id from users where login like ?) order by creation_date",
-      author
-    );
-    const image_array = await getImages(rows);
-
-    APIReturn_success(res, rows, image_array);
-  } catch (err) {
-    APIReturn_fail(res, err);
-  }
-};
-
-export const getByTitle = async (
-  req,
-  res // For filtering data by title
-) => {
-  try {
-    let Value = req.query.param;
-    Value = "%" + Value + "%";
-    const [rows, fields] = await global.db.query(
-      `SELECT * FROM sites WHERE title like ? order by creation_date`,
-      [Value]
-    );
-    const image_array = await getImages(rows);
-
-    APIReturn_success(res, rows, image_array);
-  } catch (err) {
-    APIReturn_fail(res, err);
-  }
-};
-
-export const getByLink = async (
-  req,
-  res // For filtering data by link
-) => {
-  try {
-    let Value = req.query.param;
-    Value = "%" + Value + "%";
-    const [rows, fields] = await global.db.query(
-      "SELECT * FROM `sites` WHERE link like ? order by creation_date",
-      [Value]
-    );
-    const image_array = await getImages(rows);
-
-    APIReturn_success(res, rows, image_array);
-  } catch (err) {
-    APIReturn_fail(res, err);
-  }
-};
-
-export const addPage = async (req, res) => {
-  // Ading page into database
-  try {
-    if (req.session.user !== undefined) {
-      const body = req.body;
-      const plik = req.file.buffer;
-      const link = body.link;
-      const tytul = body.tytul;
-      const opis = body.opis;
-      let user = req.session.user; // id has form of: "1id" where 1 is s/u, s = super user, u = normal user and id has id
-      user = user.replace(/\D/g, "");
-      const curDate = new Date();
-      const [re] = await global.db.query(
-        "INSERT INTO sites VALUES (NULL, ?, ?, ?, ?, ?, ?);",
-        [plik, link, tytul, opis, user, curDate]
-      );
-      res.redirect("/panel"); // sending back to panel page
-      return 0;
-    } else {
-      res.redirect("/login");
-    } // if not loged in,
+    const response = await addOnePageView();
   } catch (err) {
     throw err;
-    res.redirect("/");
   }
 };
 
-export const deletePage = async (
-  req,
-  res // deleting page
-) => {
+export const deleteOnePageController = async (req, res) => {
   try {
-    if (req.session.user !== undefined) {
-      const [response] = await global.db.query(
-        "delete from ratings where site_id = ?",
-        [parseInt(req.body.id)]
-      );
-      const [re] = await global.db.query("delete from sites where id = ?", [
-        parseInt(req.body.id),
-      ]);
-      res.redirect("/panel");
-      return 0;
-    } else {
-      res.redirect("/login");
-    }
+    const response = await deleteOnePageView();
   } catch (err) {
-    res.redirect("/");
+    throw err;
   }
 };
 
-export const updatePage = async (
-  req,
-  res // Updating page
-) => {
+export const updatePage = async () => {
   try {
-    if (req.session.user !== undefined) {
-      const body = req.body;
-      const icon = req.file.buffer;
-      const link = body.link;
-      const title = body.tytul;
-      const dscription = body.opis;
-
-      const [re] = await global.db.query(
-        "update sites set icon = ?, link = ?, title = ?, description = ? where id = ?",
-        [icon, link, title, dscription, parseInt(req.body.id)]
-      );
-      res.redirect("/panel");
-      return 0;
-    } else {
-      res.redirect("/login");
-    }
+    const response = await updateOnePageView();
   } catch (err) {
-    res.redirect("/");
+    throw err;
   }
 };

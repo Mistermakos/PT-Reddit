@@ -26,3 +26,6 @@ SERVER_PORT = Port <br>
 ### Database structure
 
 We added file for it (look in "setup" folder)
+
+# License
+PT-Reddit and the whole repository, including git history are licensed under the MIT License.

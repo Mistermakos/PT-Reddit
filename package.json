@@ -8,8 +8,8 @@
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author":"Maciej Grzesiak, supersas",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",

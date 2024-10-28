@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { getAllRatingsController } from "./ratingsController";
+import {
+  getAllRatingsController,
+  addRatingController,
+} from "./ratingsController";
 
 const ratingRouter = Router();
 

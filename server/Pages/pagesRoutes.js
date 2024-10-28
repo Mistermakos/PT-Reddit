@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { getAllPagesController } from "./pagesController";
+import { getAllPagesController, getOnePageController, addOnePageController, updateOnePageController, deleteOnePageController } from "./pagesController";
 
 const pagesRouter = Router();
 
-pagesRouter.route("/").get(getAllPagesController).post(addPageController);
+pagesRouter.route("/").get(getAllPagesController).post(addOnePageController);
 pagesRouter
   .route("/id")
   .get(getOnePageController)
-  .update(updatePageController)
-  .delete(deletePageController);
+  .update(updateOnePageController)
+  .delete(deleteOnePageController);
 
 export default pagesRouter;

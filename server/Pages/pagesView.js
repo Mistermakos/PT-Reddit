@@ -1,50 +1,80 @@
-import { deleteOnePageModel } from "./pagesModel";
+import {
+  getAllpagesModel,
+  getOnePageModel,
+  addOnePageModel,
+  updateOnePageModel,
+  deleteOnePageModel,
+} from "./pagesModel";
 
-export const getAllPagesView = async () => {
+export const getAllPagesView = async (req, res) => {
   try {
     const data = await getAllpagesModel();
     return data;
-  } catch (err) {}
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const getOnePageView = async () => {
+export const getOnePageView = async (req, res) => {
   try {
-    const data = await getOnePageModel;
+    const id = req.body.id;
+    const data = await getOnePageModel(id);
     return data;
-  } catch (err) {}
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const addOnePageView = async () => {
-  if (req.session.user !== undefined) {
+export const addOnePageView = async (req, res) => {
+  try {
     const body = req.body;
-    const plik = req.file.buffer;
+    const file = req.file.buffer;
     const link = body.link;
-    const tytul = body.tytul;
-    const opis = body.opis;
-    let user = req.session.user; // id has form of: "1id" where 1 is s/u, s = super user, u = normal user and id has id
+    const title = body.title;
+    const description = body.description;
+    let user = req.session.user;
     user = user.replace(/\D/g, "");
     const curDate = new Date();
 
-    const responseFromDatabase = await addOnePageModel();
-
-    res.redirect("/panel"); // sending back to panel page
-    return 0;
-  } else {
-    res.redirect("/login");
-  } // if not loged in,
+    const responseFromDatabase = await addOnePageModel(
+      file,
+      link,
+      title,
+      description
+    );
+    return 1;
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const deleteOnePageView = async () => {
+export const updateOnePageView = async (req, res) => {
   try {
-    if (req.session.user !== undefined) {
-      const responseFromDatabase = await deleteOnePageModel();
-
-      res.redirect("/panel");
-      return 0;
-    } else {
-      res.redirect("/login");
-    }
+    const body = req.body;
+    const link = body.link;
+    const title = body.title;
+    const description = body.description;
+    const authorId = body.authorId;
+    const id = body.id;
+    const responseFromDatabase = await updateOnePageModel(
+      link,
+      title,
+      description,
+      authorId,
+      id
+    );
+    return 1;
   } catch (err) {
-    res.redirect("/");
+    throw err;
+  }
+};
+
+export const deleteOnePageView = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const responseFromDatabase = await deleteOnePageModel(id);
+    return 1;
+  } catch (err) {
+    throw err;
   }
 };

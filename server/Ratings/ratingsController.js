@@ -1,16 +1,18 @@
-import session from "express-session";
+import { getAllRatingsView, addRatingView } from "./ratingsView";
 
-export const getAllRatingsController = async () => {
+export const getAllRatingsController = async (req, res) => {
   try {
-    const data = await getAllRatingsView();
+    const data = await getAllRatingsView(req, res);
+    return data;
   } catch (err) {
     throw err;
   }
 };
 
-export const addRatingController = async () => {
+export const addRatingController = async (req, res) => {
   try {
-    const response = await addRatingView();
+    const responseFromServer = await addRatingView(req, res);
+    return responseFromServer;
   } catch (err) {
     throw err;
   }

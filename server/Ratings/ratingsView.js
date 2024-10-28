@@ -1,25 +1,26 @@
-export const getAllRatingsController = async () => {
+import { getAllRatingsModel, addRatingModel } from "./ratingsModel";
+
+export const getAllRatingsView = async (req, res) => {
   try {
-    const data = await getAllRatingsModel();
+    const pageId = req.body.pageId;
+    const data = await getAllRatingsModel(pageId);
     return data;
   } catch (err) {
     throw err;
   }
 };
 
-export const addRatingController = async () => {
+export const addRatingView = async (req, res) => {
   try {
     if (req.session.user !== undefined) {
-      let User = req.session.user;
-      User = User.replace(/\D/g, "");
+      let user = req.session.user;
+      user = user.replace(/\D/g, "");
       const body = req.query;
-      const Page = body.pageId;
-      const Rating = body.rating;
-      if (rows.length == 0) {
-        const responseFromDatabase = await addRatingModel();
-      }
+      const rage = body.pageId;
+      const rating = body.rating;
+      const responseFromDatabase = await addRatingModel(user, page, rating);
+      return 1;
     }
-    return "";
   } catch (err) {
     throw err;
   }

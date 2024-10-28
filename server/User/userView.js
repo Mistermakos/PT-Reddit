@@ -1,67 +1,57 @@
 import sha512 from "js-sha512";
-import { deleteOneUserModel } from "./userModel";
+import {
+  getAllUsersModel,
+  getOneUserModel,
+  addOneUserModel,
+  updateOneUserModel,
+  deleteOneUserModel,
+} from "./userModel";
 
-export const getAllUsersViewUserView = async () => {
+export const getAllUsersView = async (req, res) => {
   try {
-    const que = await getAllUsersModel();
+    const data = await getAllUsersModel();
+    return data;
   } catch (err) {
     throw err;
   }
 };
-export const getOneUserView = async () => {
+export const getOneUserView = async (req, res) => {
   try {
-    const que = await getOneUserModel();
-    return que;
+    const query = req.body.query;
+    const user = req.body.userData;
+    const data = await getOneUserModel(query, userData);
+    return data;
   } catch (err) {
     throw err;
   }
 };
-export const addOneUserView = async () => {
+export const addOneUserView = async (req, res) => {
   try {
-    if (req.session.user !== undefined) {
-      const r = await getUser("login", req.body.login); // checks if user exists (by login)
-      if (r.length != 0) {
-        res.redirect("/panel");
-        return 0;
-      } // returns him to panel if not (if not logged in panel will redirect to main page)
-
-      const responseFromDatabase = await addOneUserModel();
-      res.redirect("/panel");
-      return 0;
-    } else {
-      res.redirect("/login");
-    }
+    const login = req.body.login;
+    const password = req.body.password;
+    const responseFromDatabase = await addOneUserModel(login, password);
+    return 1;
   } catch (err) {
     throw err;
   }
 };
-export const updateOneUserView = async () => {
+export const updateOneUserView = async (req, res) => {
   try {
-    if (req.session.user !== undefined) {
-      const body = req.body;
-      const login = body.login;
-      const password = body.password;
-      const id = body.id;
-
-      const responseFromDatabase = await updateOneUserModel();
-      res.redirect("/panel");
-      return 0;
-    } else {
-      res.redirect("/login");
-    }
+    const body = req.body;
+    const login = body.login;
+    const password = body.password;
+    const id = body.id;
+    const responseFromDatabase = await updateOneUserModel(login, password, id);
+    return 1;
   } catch (err) {
     throw err;
   }
 };
 export const deleteOneUserView = async (req, res) => {
   try {
-    if (req.session.user !== undefined) {
-      const user = parseInt(req.body.id);
-      const responseFromDatabase = await deleteOneUserModel(user);
-      res.redirect("/panel");
-    } else {
-      res.redirect("/login");
-    }
+    const user = parseInt(req.body.id);
+    const responseFromDatabase = await deleteOneUserModel(user);
+    return 1;
   } catch (err) {
     throw err;
   }

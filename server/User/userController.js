@@ -1,40 +1,51 @@
-import express from express;
+import {
+  getAllUsersView,
+  getOneUserView,
+  addOneUserView,
+  updateOneUserView,
+  deleteOneUserView,
+} from "./userView";
 
-export const getAllUsersController = async () => {
+export const getAllUsersController = async (req, res) => {
   try {
-    const data = await getAllUsersView();
+    const data = await getAllUsersView(req, res);
+    return data;
   } catch (err) {
     throw err;
   }
 };
 
-export const getOneUserController = async () => {
+export const getOneUserController = async (req, res) => {
   try {
-    const data = await getOneUserView();
+    const data = await getOneUserView(req, res);
+    return data;
   } catch (err) {
     throw err;
   }
 };
 
-export const addOneUserController = async () => {
+export const addOneUserController = async (req, res) => {
   try {
-    const data = await addOneUserView();
+    const responseFromServer = await addOneUserView(req, res);
+    return responseFromServer;
   } catch (err) {
     throw err;
   }
 };
 
-export const updateOneUserController = async () => {
+export const updateOneUserController = async (req, res) => {
   try {
-    const data = await updateOneUserView();
+    const responseFromServer = await updateOneUserView(req, res);
+    return responseFromServer;
   } catch (err) {
     throw err;
   }
 };
 
-export const deleteOneUserController = async () => {
+export const deleteOneUserController = async (req, res) => {
   try {
-    const data = await deleteOneUserView();
+    const responseFromServer = await deleteOneUserView(req, res);
+    return responseFromServer;
   } catch (err) {
     throw err;
   }

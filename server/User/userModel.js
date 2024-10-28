@@ -1,62 +1,63 @@
-const insertUserQuery =
-  "INSERT INTO users(id,login,password) VALUES (NULL, ?, ?);";
+import { sha512 } from "js-sha512";
 
-export const getAllUserModel = async () => {
+export const getAllUsersModel = async () => {
   try {
-    const [rows, fields] = await global.db.query(`select * from users where`);
+    const [rows, fields] = await global.db.query(`select * from users`);
     return rows;
   } catch (err) {
     throw err;
   }
 };
-export const getOneUserModel = async () => {
+export const getOneUserModel = async (query, userData) => {
   try {
     const [rows, fields] = await global.db.query(
-      `select 0=0 from users where ${query} = ?`,
-      user
+      `select * from users where ${query} = ?`,
+      userData
     );
     return rows;
   } catch (err) {
     throw err;
   }
 };
-export const addOneUserModel = async () => {
+export const addOneUserModel = async (login, password) => {
   try {
     const [re] = await global.db.query(insertUserQuery, [
-      req.body.login,
-      sha512(req.body.password),
+      login,
+      sha512(password),
     ]);
+    return 1;
   } catch (err) {
     throw err;
   }
 };
-export const updateOneUserModel = async () => {
+export const updateOneUserModel = async (login, password, id) => {
   try {
     const [re] = await global.db.query(
       "update users set login = ?, password = ? where id = ?",
       [login, sha512(password), id]
     );
-    return re;
+    return 1;
   } catch (err) {
     throw err;
   }
 };
-export const deleteOneUserModel = async (user) => {
+
+export const deleteOneUserModel = async (userId) => {
   try {
     const del = global.db.query(
       "delete from super_users where user_id = ?",
-      user
+      userId
     );
     const rows = global.db.query(
       "delete from ratings where user_id = ?;",
-      user
+      userId
     );
     const rows2 = global.db.query(
       "delete from sites where author_id = ?;",
-      user
+      userId
     );
-    const rows3 = global.db.query("delete from users where id = ?;", user);
-    return "gut";
+    const rows3 = global.db.query("delete from users where id = ?;", userId);
+    return 1;
   } catch (err) {
     throw err;
   }

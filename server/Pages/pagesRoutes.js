@@ -1,13 +1,20 @@
 import { Router } from "express";
-import { getAllPagesController, getOnePageController, addOnePageController, updateOnePageController, deleteOnePageController } from "./pagesController";
+import {
+  getAllPagesController,
+  getOnePageController,
+  addOnePageController,
+  updateOnePageController,
+  deleteOnePageController,
+} from "./pagesController.js";
 
-const pagesRouter = Router();
+export const pagesRouter = Router();
 
-pagesRouter.route("/").get(getAllPagesController).post(addOnePageController);
+pagesRouter
+  .route("/")
+  .get(await getAllPagesController)
+  .post(await addOnePageController);
 pagesRouter
   .route("/id")
-  .get(getOnePageController)
-  .update(updateOnePageController)
-  .delete(deleteOnePageController);
-
-export default pagesRouter;
+  .get(await getOnePageController)
+  .put(await updateOnePageController)
+  .delete(await deleteOnePageController);

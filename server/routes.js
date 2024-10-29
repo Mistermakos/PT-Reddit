@@ -1,12 +1,10 @@
-import userRoutes from "./User/userRoutes";
-import ratingsRoutes from "./Ratings/ratingsRoutes";
-import pagesRouter from "./Pages/pagesRoutes";
+import { userRouter } from "./User/userRoutes.js";
+import { ratingsRouter } from "./Ratings/ratingsRoutes.js";
+import { pagesRouter } from "./Pages/pagesRoutes.js";
 import { Router } from "express";
 
-const router = Router();
+export const router = Router();
 
 router.route("/Pages", pagesRouter);
-router.route("/Ratings", ratingsRoutes);
-router.route("/Users", userRoutes);
-
-export default router;
+router.route("/Ratings", ratingsRouter);
+router.route("/Users", userRouter);

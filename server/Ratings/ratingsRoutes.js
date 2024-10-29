@@ -2,11 +2,9 @@ import { Router } from "express";
 import {
   getAllRatingsController,
   addRatingController,
-} from "./ratingsController";
+} from "./ratingsController.js";
 
-const ratingRouter = Router();
+export const ratingsRouter = Router();
 
-ratingRouter.route("/").post(addRatingController);
-ratingRouter.route("/id").get(getAllRatingsController);
-
-export default ratingRouter;
+ratingsRouter.route("/").post(addRatingController);
+ratingsRouter.route("/id").get(getAllRatingsController);

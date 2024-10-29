@@ -1,4 +1,4 @@
-import { getAllRatingsView, addRatingView } from "./ratingsView";
+import { getAllRatingsView, addRatingView } from "./ratingsView.js";
 
 export const getAllRatingsController = async (req, res) => {
   try {

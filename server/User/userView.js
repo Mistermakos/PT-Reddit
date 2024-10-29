@@ -5,7 +5,7 @@ import {
   addOneUserModel,
   updateOneUserModel,
   deleteOneUserModel,
-} from "./userModel";
+} from "./userModel.js";
 
 export const getAllUsersView = async (req, res) => {
   try {

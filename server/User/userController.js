@@ -4,7 +4,7 @@ import {
   addOneUserView,
   updateOneUserView,
   deleteOneUserView,
-} from "./userView";
+} from "./userView.js";
 
 export const getAllUsersController = async (req, res) => {
   try {

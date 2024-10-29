@@ -4,7 +4,7 @@ import {
   addOnePageModel,
   updateOnePageModel,
   deleteOnePageModel,
-} from "./pagesModel";
+} from "./pagesModel.js";
 
 export const getAllPagesView = async (req, res) => {
   try {

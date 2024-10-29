@@ -4,16 +4,17 @@ import {
   addOneUserController,
   getOneUserController,
   updateOneUserController,
-  deleteOneController,
-} from "./usersController";
+  deleteOneUserController,
+} from "./userController.js";
 
-const userRouter = Router();
+export const userRouter = Router();
 
-userRouter.route("/").get(getAllUsersController).post(addOneUserController);
+userRouter
+  .route("/")
+  .get(await getAllUsersController)
+  .post(await addOneUserController);
 userRouter
   .route("/id")
-  .get(getOneUserController)
-  .update(updateOneUserController)
-  .delete(deleteOneController);
-
-export default userRouter;
+  .get(await getOneUserController)
+  .put(await updateOneUserController)
+  .delete(await deleteOneUserController);

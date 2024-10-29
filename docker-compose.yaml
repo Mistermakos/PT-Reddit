@@ -1,12 +1,16 @@
 services:
   web:
     build: ./web
-    ports: 
+    ports:
       - 80:80
+    depends_on:
+      - server
   server:
     build: ./server
     ports:
       - 3000:3000
+    depends_on:
+      - mysql
   mysql:
     image: mysql:9.1.0
     restart: always

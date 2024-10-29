@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllPagesView, getOnePageView, addOnePageView, updateOnePageView, deleteOnePageView } from "./pagesView";
+import { getAllPagesView, getOnePageView, addOnePageView, updateOnePageView, deleteOnePageView } from "./pagesView.js";
 
 export const getAllPagesController = async (req, res) => {
   try {

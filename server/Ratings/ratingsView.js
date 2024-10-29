@@ -1,4 +1,4 @@
-import { getAllRatingsModel, addRatingModel } from "./ratingsModel";
+import { getAllRatingsModel, addRatingModel } from "./ratingsModel.js";
 
 export const getAllRatingsView = async (req, res) => {
   try {

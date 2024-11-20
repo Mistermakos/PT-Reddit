@@ -14,7 +14,7 @@ pagesRouter
   .get(await getAllPagesController)
   .post(await addOnePageController);
 pagesRouter
-  .route("/id")
+  .route("/:id")
   .get(await getOnePageController)
   .put(await updateOnePageController)
   .delete(await deleteOnePageController);

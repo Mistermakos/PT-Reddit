@@ -30,7 +30,7 @@ export const addOneUserView = async (req, res) => {
     const login = req.body.login;
     const password = req.body.password;
     const responseFromDatabase = await addOneUserModel(login, password);
-    return 1;
+    return responseFromDatabase;
   } catch (err) {
     throw err;
   }

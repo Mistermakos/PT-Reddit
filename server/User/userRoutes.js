@@ -14,7 +14,7 @@ userRouter
   .get(await getAllUsersController)
   .post(await addOneUserController);
 userRouter
-  .route("/id")
+  .route("/:id")
   .get(await getOneUserController)
   .put(await updateOneUserController)
   .delete(await deleteOneUserController);

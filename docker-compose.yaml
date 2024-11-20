@@ -1,23 +1,24 @@
 services:
-  web:
-    build: ./web
-    ports:
-      - 80:80
-    depends_on:
-      - server
-  server:
-    build: ./server
-    ports:
-      - 3000:3000
-    depends_on:
-      - mysql
   mysql:
     image: mysql:9.1.0
     restart: always
     volumes:
-      - ./Database/Database.sql:/docker-entrypoint-initdb.d/kod_bazy.sql #Cloning db code
+      - ./Database/Database.sql:/docker-entrypoint-initdb.d/Database.sql
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "PTREDDIT"
+  web:
+    build: ./web
+    ports:
+      - 80:80
+    depends_on:
+      - mysql
+  server:
+    build: ./server
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - web

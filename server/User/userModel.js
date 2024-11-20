@@ -21,7 +21,7 @@ export const getOneUserModel = async (query, userData) => {
 };
 export const addOneUserModel = async (login, password) => {
   try {
-    const [re] = await global.db.query(insertUserQuery, [
+    const [re] = await global.db.query('INSERT INTO `users` (login, password) VALUES (?,?)', [
       login,
       sha512(password),
     ]);

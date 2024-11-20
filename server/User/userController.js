@@ -9,7 +9,7 @@ import {
 export const getAllUsersController = async (req, res) => {
   try {
     const data = await getAllUsersView(req, res);
-    return data;
+    res.send(data)
   } catch (err) {
     throw err;
   }
@@ -27,7 +27,7 @@ export const getOneUserController = async (req, res) => {
 export const addOneUserController = async (req, res) => {
   try {
     const responseFromServer = await addOneUserView(req, res);
-    return responseFromServer;
+    res.send(responseFromServer);
   } catch (err) {
     throw err;
   }

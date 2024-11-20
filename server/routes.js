@@ -5,6 +5,6 @@ import { Router } from "express";
 
 export const router = Router();
 
-router.route("/Pages", pagesRouter);
-router.route("/Ratings", ratingsRouter);
-router.route("/Users", userRouter);
+router.use("/Pages", pagesRouter);
+router.use("/Ratings", ratingsRouter);
+router.use("/Users", userRouter);

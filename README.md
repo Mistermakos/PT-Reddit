@@ -1,5 +1,3 @@
-# PT-Reddit
-
 Project for school.<br>
 Page has basic crud operations for 2 types of data (users and sites), for ratings it's only CR
 
@@ -28,4 +26,4 @@ SERVER_PORT = Port <br>
 We added file for it (look in "setup" folder)
 
 # License
-PT-Reddit and the whole repository, including git history are licensed under the MIT License.
+App and the whole repository, including git history are licensed under the MIT License.

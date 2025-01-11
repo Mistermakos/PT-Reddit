@@ -9,12 +9,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "PTREDDIT"
-  web:
-    build: ./web
-    ports:
-      - 80:80
-    depends_on:
-      - mysql
   server:
     build: ./server
     restart: always
